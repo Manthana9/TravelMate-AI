@@ -1,10 +1,14 @@
 import os
 from google.adk.agents.llm_agent import Agent
 
-# 1. Define the precise formatting instructions as the agent's core identity blueprint
+# 🔥 NEW: Import the live API functions that Member 4 built inside tools.py
+# (Replace 'fetch_live_weather' and 'fetch_hotel_rates' with the exact names Member 4 used)
+from agent.tools import get_weather, get_real_hotels
+
 system_instruction = """
 You are an intelligent AI Travel Decision Assistant.
 Your job is NOT just to plan trips, but to understand travel goals, break the problem into steps, analyze environmental risks, and present options.
+You must use your available tools to look up real-time weather, hazards, and pricing details.
 
 You MUST follow this EXACT structure in your response format. Do not alter headings or use any other format:
 
@@ -16,7 +20,7 @@ You MUST follow this EXACT structure in your response format. Do not alter headi
 ---
 
 ## ⚠️ Risk Analysis
-- Mention any risks (weather, season, safety) based on the inputs provided.
+- Mention any risks (weather, season, safety) based on the live data provided by your tools.
 If no major safety threats are found, output exactly: "No major risks detected."
 
 ---
@@ -63,19 +67,12 @@ Options:
 - MODIFY
 """
 
-# 2. Instantiating the official global ADK Agent instance
-# ⚠️ FIXED: Changed 'instructions' back to 'instruction' to fix the Pydantic validation error
-from google.adk.agents.llm_agent import Agent
-# Import the tool function
-from agent.tools import fetch_destination_alerts
-
-# ... your system_instruction text remains exactly the same ...
-
-# Attach the tool function inside the tools list parameter!
+# Instantiating the global ADK Agent instance
 root_agent = Agent(
     name="travelmate_decision_assistant",
     model="gemini-2.5-flash",
     description="Analyzes user criteria, weather, risks, and provides structured travel comparisons.",
     instruction=system_instruction,
-    tools=[fetch_destination_alerts] # 🔥 Gemini can now call this function whenever it wants!
+    # 🔥 NEW: Add Member 4's live API functions to the tools array here!
+    tools=[get_weather, get_real_hotels] 
 )
