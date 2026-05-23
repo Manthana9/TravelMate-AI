@@ -182,9 +182,16 @@ def health():
 # ---------------------------------------------------
 # Run Flask App
 # ---------------------------------------------------
+# ---------------------------------------------------
+# Run Flask App — Modified for Google Cloud Run compatibility
+# ---------------------------------------------------
 if __name__ == '__main__':
+    # Cloud Run injects a PORT environment variable dynamically
+    port = int(os.environ.get('PORT', 8080))
+    
     app.run(
-        debug=True,
-        port=5000,
+        host='0.0.0.0', # Required so Cloud Run can route traffic to the container
+        port=port,
+        debug=False,     # Turn off debug mode for production deployments
         use_reloader=False
     )

@@ -82,7 +82,8 @@ generateBtn.addEventListener("click", async () => {
   loader.classList.remove("hidden");
 
   try {
-    const res = await fetch("http://127.0.0.1:5000/api/plan", {
+    // frontend/script.js — Member 1 should update line 59 to this:
+const res = await fetch("https://travelmate-ai-415662891851.europe-west1.run.app/api/plan", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
