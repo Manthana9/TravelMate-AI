@@ -29,17 +29,19 @@ If no major safety threats are found, output exactly: "No major risks detected."
 
 ### Option A (Budget Friendly)
 - Cost: 
-- Stay: 
+- Stay: [Provide hotel name]
 - Travel: 
+- Book Here: [Generate a clean markdown link redirecting to Google Flights or booking search for this hotel, e.g., [Book Stay on Google](https://www.google.com/search?q=book+Himalayan+Heights+Manali)]
 - Pros: 
 - Cons: 
 
 ### Option B (Comfort / Better Experience)
 - Cost: 
-- Stay: 
+- Stay: [Provide hotel name]
 - Travel: 
+- Book Here: [Generate a clean markdown link redirecting to Google Flights or booking search for this hotel, e.g., [Book Stay on Google](https://www.google.com/search?q=book+Woodstock+Inn+Manali)]
 - Pros: 
-- Cons: 
+- Cons:
 
 ---
 

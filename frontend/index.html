@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TravelMate AI</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body>
+
+<div class="bg-glow glow1"></div>
+<div class="bg-glow glow2"></div>
+<div class="bg-glow glow3"></div>
+
+  <div class="container">
+
+    <div class="login-section">
+      <div class="overlay">
+        <div class="login-card">
+          <div class="logo">✈</div>
+          <h1>TravelMate AI</h1>
+          <p class="subtitle">AI Powered Travel Planner</p>
+
+          <input type="text" id="login-name" placeholder="Enter Username" />
+          <input type="password" id="login-password" placeholder="Enter Password" />
+          <button id="login-btn" type="button">Login</button>
+
+          <p class="signup-text">
+            Don’t have an account?
+            <span id="signup-btn" onclick="alert('Demo signup enabled 🚀')">Sign up</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboard-section hidden">
+
+      <div class="sidebar">
+        <div class="sidebar-logo">✈ TravelMate AI</div>
+        <div class="menu">
+          <div class="menu-item active">Dashboard</div>
+          <div class="menu-item">My Trips</div>
+          <div class="menu-item">Saved Plans</div>
+          <div class="menu-item" id="sidebar-profile">Profile</div>
+          <div class="menu-item" id="logout-btn">Logout</div>
+        </div>
+      </div>
+
+      <div class="main-content">
+        
+        <div id="loader" class="loader hidden"></div>
+
+        <div class="topbar">
+          <div>
+            <h1>Plan Your Trip</h1>
+            <div class="search-bar">
+              <input type="text" id="destination" placeholder="Where do you want to travel?" />
+              <input type="text" id="budget" placeholder="Budget (INR)" />
+              <input type="text" id="duration" placeholder="Duration (e.g., 3 days)" />
+              <button id="generate-btn">Generate Plan</button>
+            </div>
+          </div>
+
+          <div class="profile" id="profile-btn">
+            <img src="https://i.pravatar.cc/150?img=12" alt="" />
+            <span id="top-profile-name">User</span>
+          </div>
+        </div>
+
+        <div class="profile-popup hidden">
+          <div class="profile-header">
+            <img src="https://i.pravatar.cc/150?img=12" alt="" />
+            <h3 id="profile-name">User</h3>
+            <p id="profile-email">user@gmail.com</p>
+          </div>
+          <div class="popup-item">🔔 Notifications</div>
+          <div class="popup-item">🎧 Customer Care</div>
+          <div class="popup-item">⚙ Settings</div>
+        </div>
+
+        <div id="itinerary-display-box" class="overview-card hidden" style="margin-top: 20px;">
+          <h3>🧭 Custom Travel Intelligence Dashboard</h3>
+          <div id="markdown-target-element" style="margin-top: 15px; color: #cbd5e1; line-height: 1.7;"></div>
+        </div>
+
+        <div class="approval-box hidden" id="frontend-approval-box" style="margin-top: 25px;">
+          <p>Do you approve this plan?</p>
+          <div class="approval-buttons">
+            <button class="yes-btn" id="confirm-booking-btn">YES ✅</button>
+            <button class="modify-btn" id="modify-booking-btn">MODIFY ✏️</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

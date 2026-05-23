@@ -44,18 +44,16 @@ runner = Runner(
 )
 
 # ---------------------------------------------------
-# Generate AI Response Function
+# Generate AI Response Function — (ASYNC CLEANED UP)
 # ---------------------------------------------------
-def generate_ai_response(session_id: str, user_message: str) -> str:
-
+async def generate_ai_response(session_id: str, user_message: str) -> str:
     try:
-        # Create session
-        session_service.create_session(
+        # Create session asynchronously
+        await session_service.create_session(
             app_name="travelmate",
             user_id="user1",
             session_id=session_id
         )
-
     except Exception:
         # Ignore if session already exists
         pass
@@ -68,20 +66,16 @@ def generate_ai_response(session_id: str, user_message: str) -> str:
 
     response_text = ""
 
-    # Run the agent
+    # Run the agent execution event stream generator loop
     for event in runner.run(
         user_id="user1",
         session_id=session_id,
         new_message=content
     ):
-
-        # Final AI response
+        # Accumulate chunks for final AI response
         if event.is_final_response():
-
             if event.content and event.content.parts:
-
                 for part in event.content.parts:
-
                     if hasattr(part, "text") and part.text:
                         response_text += part.text
 
@@ -89,13 +83,11 @@ def generate_ai_response(session_id: str, user_message: str) -> str:
 
 
 # ---------------------------------------------------
-# ROUTE 1 — Plan Trip
+# ROUTE 1 — Plan Trip (ASYNC UPDATED)
 # ---------------------------------------------------
-@app.route('/api/plan-trip', methods=['POST'])
-def plan_trip():
-
+@app.route('/api/plan', methods=['POST'])
+async def plan_trip():
     try:
-
         data = request.get_json()
 
         destination = data.get('destination', '')
@@ -103,14 +95,14 @@ def plan_trip():
         budget = data.get('budget', '')
         session_id = data.get('session_id', 'default')
 
-        # Build user prompt
+        # Build clean user prompt for your ADK Agent template
         user_message = (
             f"Plan a {duration} trip to {destination} "
             f"with a budget of {budget} INR."
         )
 
-        # Get AI response
-        ai_reply = generate_ai_response(
+        # Await the asynchronous AI function call safely
+        ai_reply = await generate_ai_response(
             session_id,
             user_message
         )
@@ -121,7 +113,6 @@ def plan_trip():
         })
 
     except Exception as e:
-
         return jsonify({
             "success": False,
             "error": str(e)
@@ -129,22 +120,18 @@ def plan_trip():
 
 
 # ---------------------------------------------------
-# ROUTE 2 — Modify Existing Trip
+# ROUTE 2 — Modify Existing Trip (ASYNC UPDATED)
 # ---------------------------------------------------
 @app.route('/api/modify-trip', methods=['POST'])
-def modify_trip():
-
+async def modify_trip():
     try:
-
         data = request.get_json()
 
         session_id = data.get('session_id', 'default')
-        modification_request = data.get(
-            'modification_request',
-            ''
-        )
+        modification_request = data.get('modification_request', '')
 
-        ai_reply = generate_ai_response(
+        # Await the asynchronous modification function call safely
+        ai_reply = await generate_ai_response(
             session_id,
             modification_request
         )
@@ -155,7 +142,6 @@ def modify_trip():
         })
 
     except Exception as e:
-
         return jsonify({
             "success": False,
             "error": str(e)
@@ -163,15 +149,12 @@ def modify_trip():
 
 
 # ---------------------------------------------------
-# ROUTE 3 — Approve Trip
+# ROUTE 3 — Approve Trip (ASYNC UPDATED)
 # ---------------------------------------------------
 @app.route('/api/approve-trip', methods=['POST'])
-def approve_trip():
-
+async def approve_trip():
     try:
-
         data = request.get_json()
-
         session_id = data.get('session_id', 'default')
 
         return jsonify({
@@ -180,7 +163,6 @@ def approve_trip():
         })
 
     except Exception as e:
-
         return jsonify({
             "success": False,
             "error": str(e)
@@ -192,7 +174,6 @@ def approve_trip():
 # ---------------------------------------------------
 @app.route('/health', methods=['GET'])
 def health():
-
     return jsonify({
         "status": "Server is running ✅"
     })
@@ -202,7 +183,6 @@ def health():
 # Run Flask App
 # ---------------------------------------------------
 if __name__ == '__main__':
-
     app.run(
         debug=True,
         port=5000,
